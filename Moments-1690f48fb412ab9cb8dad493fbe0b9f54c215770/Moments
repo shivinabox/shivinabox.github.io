@@ -1,0 +1,174 @@
+/*Goal to find principal moment of inertia and 
+To find the extreme value of normal stress for a case of applied moment of $M=10kNm$ bending around horizontal axes.
+
+//Steps to reach the goals - 
+
+// To find the centeroids of the shapes. 
+
+//First to find the area of all the shapes
+// Then coordinates of X and Y of centeroid - 
+// Might need to find centroid of the area too - 
+// Make Centroid the origin 
+// Moment of inertia of a rectangle about centrodial axis - 1/12(b)(h)^3 also
+
+//Use the pallarel axis Theorem to find the I of any complex shape about both the Axis
+
+//I about x axis  = (I_x(1/12)(b)(h)^3) + A dy^2
+
+//I about y axis = I_y  (1/12)(h)(b)^3)+ A dx^2
+
+
+*/
+
+#include <stdio.h>
+#include <math.h>
+int main () 
+    {
+    
+    int i,j,a;
+double h,w,Area,cen_rx,cen_ry, centeroid_x, centeroid_y,holearea,hole_x,hole_y;
+       double sigI,A,cen_x,cen_y,d_y, shapetype, length, width,sigma_area,sigma_yarea,sigma_xarea;
+        double I_x,I_y,d_x,sigIx,sigIy;
+        double AppMoment,maxheight,normalstress;
+        
+        AppMoment = 10000.000000; // Force applied in Newtons
+            
+        
+    
+        //Code TO FIND THE CENTEROID OF ANY COMPLEX SHAPE//
+        
+        printf("Please input the number of simple shapes in the complex shape \n"); // Asks the user to simplify the complex shapes in rectangles and circles. 
+            scanf("%ld",&j);
+          for(i=1;i<=j;i++) // Loop to enter details of all the simple shapes. 
+        {
+              printf("Enter the data for the simple shape %d", i);
+              printf( ": - \n 1.Rectangle.  \n 2.Hole. \n"); 
+              scanf("%lf", &shapetype);
+              
+              if(shapetype==1)//If the shape is a rectangle this statement becomes true and asks user to enter details of the rectangle. 
+                {
+                  printf("Enter the Length and the Width of the Rectangle\n"); 
+                  
+                    { scanf("%lf %lf", &length, &width); // User entered lenght and width of the rectangle. 
+
+                        Area = length * width; //To find area of the rectangle. 
+                    }
+                    
+                  printf("Enter the x y co-ordinates of the Local Centeroid of the Rectangle\n");
+                    {
+                        scanf("%lf %lf", &cen_rx, &cen_ry); // To enter local centeroid of the rectangle. 
+                    }
+                    
+                    sigma_area = sigma_area+Area; // To find Total Area of all the simple rectangle. 
+                    sigma_yarea = sigma_yarea+(Area*cen_ry); // To find the Sigma Y to calculate the Y position of centeroid. 
+                    sigma_xarea = sigma_xarea+(Area*cen_rx); // To find the Sigma X to calculate the X position of the centeroid. 
+                    
+                    
+                }
+                    
+                
+                
+            if (shapetype ==2)
+                {
+                        
+                printf("Enter the X Y co-ordinates of the hole \n"); // To enter the X, Y coordinates of the Hole.
+                    
+                    { 
+                        scanf("%lf %lf", &hole_x, &hole_y);
+                    
+                        holearea = 2.500*3.14159265*2.500;
+                    
+                        sigma_area = sigma_area-holearea;
+                        sigma_yarea = sigma_yarea-(holearea*hole_y);
+                        sigma_xarea = sigma_xarea-(holearea*hole_x);
+                    }
+                    
+                }
+                    
+        }
+                    
+                    centeroid_x = (sigma_xarea)/sigma_area;
+                    centeroid_y = (sigma_yarea)/sigma_area; 
+                    
+                printf("The x y location of centeroid of the complex shape is %lf %lf \n",centeroid_x,centeroid_y);
+                    
+                    
+                
+                
+// CODE TO FIND THE MOMENT OF INTERIA AFTER FINDING THE CENTEROID OF A COMPLEX SHAPE//
+                     
+    printf("Please input the number of simple shapes in the complex shape to find the Moment of Interia \n"); // Divide any complex shape into simple shape
+        scanf("%ld",&j);
+        for(i=1;i <= j;i++) //To enter any amount of simple shapes
+    
+        { printf("Enter the data for the simple shape %d", i);
+              printf( ": - \n 1.Rectangle.  \n 2.Hole. \n"); 
+              scanf("%lf", &shapetype);
+              
+            if(shapetype==1) //If the simple shape is a rectangle. 
+            {
+                  printf("Enter the Length and the Width of the Rectangle\n"); 
+                  
+                { 
+                    scanf("%lf %lf", &length, &width); 
+                    printf("Enter the x y co-ordinates of the Local Centeroid of the Rectangle\n");
+                   
+                    {
+                        scanf("%lf %lf", &cen_rx, &cen_ry); //To enter local centeroid of simples shapes
+                    
+                        Area = length*width;
+                        d_x = abs(centeroid_x - cen_rx); //Using absolute to keep distance from centeroid positive
+                        
+                        d_y = abs(centeroid_y - cen_ry); //Using absolute to keep distance from centeroid positive
+                        
+                        I_y = (1.00/12.00)*length*pow(width,3);
+                        I_x = (1.00/12.00)*width*pow(length,3); 
+                        sigIy=sigIy+(I_x+(Area*d_x*d_x));  // Parallel axis theorem formula used here       
+                        sigIx=sigIx+(I_y+(Area*d_y*d_y));  // Parallel axis theorem formula used here 
+                        
+                    }
+               
+                }
+            }
+            
+            if(shapetype==2) // Code for a hole 
+        
+            {
+                printf("Enter the X Y co-ordinates of the hole \n"); //User entered location of the Hole
+                    
+                    { 
+                        scanf("%lf %lf", &hole_x, &hole_y);
+                            holearea = 2.500*3.14159265*2.500;
+                            d_x = abs(centeroid_x - hole_x); //To find the x distance of centeroid to the hole
+                           
+                            d_y = abs(centeroid_y - hole_y); //To find the y distance of centeroid to the hole
+                        
+                            I_x = (3.14159265*2.500*2.5*2.5*2.5)/4;
+                        
+                            I_y = (3.14159265*2.500*2.5*2.5*2.5)/4;
+                        
+                        sigIx = sigIx-(I_x+(holearea*d_x*d_x)); //As hole removes Area we minus it from the sigma
+                        sigIy = sigIy-(I_y+(holearea*d_y*d_y)); //As hole removes Area we minus it from the sigma
+
+
+                    }
+    
+    
+            }
+    
+        }
+        printf("Interia across centroidal x axis is =", sigIx);
+        printf("\n Interia across centroidal y axis is =", sigIy); 
+    
+    
+    //Code to find max normal stress//
+     printf("\n Enter the max height of the shape\n"); 
+                  
+                 scanf("%lf", &maxheight); //Using Maximum height to find maximum stress
+    
+   normalstress =   (AppMoment*(maxheight-centeroid_y)/sigIy) ; //To find normalstress 
+    
+    printf("Max Normal Stress is = N/cm^2", normalstress);
+                    
+    return 0;
+    }
