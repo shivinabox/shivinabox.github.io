@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Moments</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstarp Css-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="gyroscope.css">
+	
+    <!-- Custom fonts for this template -->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+	   
+        
+</head>
+<body id="page-top">
+
+
+    <!-- Navigation 2 -->
+    <nav class="navbar navbar-expand-md navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="index1.1.html">Shivam Gupta</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="index1.1.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="projects">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#signup">Contact</a>
+            </li>
+              <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#signup">ASME</a>
+            </li>
+              <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#signup">Resume</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+       
+   
+		
+         
+	
+	<div class="container bg-light" id="first-container">
+        <h1 style="text-align: center">Moments</h1>
+        <h1 style="text-align:center"><em>ENG 104 Mechanics of Materials Extra Credit Program   </em> </h1>
+		<h2> The program below is written in C Programming Language. </h2>
+        <p>
+        DISCLAIMER: The Code provided on this webpage has been used in Graded Assignments already. Copying this code will constitue to Plagiarism ! </p>
+        
+        <p>/*<strong>Goal to find principal moment of inertia and </strong><br /><strong>
+            To find the extreme value of normal stress for a case of applied moment of $M=10kNm$ bending around horizontal axes.</strong></p>
+<p>// Steps to reach the goals -</p>
+<p>// To find the centeroids of the shapes.</p>
+<p>// First to find the area of all the shapes<br />// Then coordinates of X and Y of centeroid - <br />// Might need to find centroid of the area too - <br />// Make Centroid the origin <br />
+    // Moment of inertia of a rectangle about centrodial axis - 1/12(b)(h)^3 also</p>
+<p>//Use the pallarel axis Theorem to find the I of any complex shape about both the Axis</p>
+<p>//I about x axis = (I_x(1/12)(b)(h)^3) + A dy^2</p>
+<p>//I about y axis = I_y (1/12)(h)(b)^3)+ A dx^2</p>
+<p><br />*/</p>
+<p>#include &lt;stdio.h&gt;<br />#include &lt;math.h&gt;<br />
+    int main () <br />{<br /><br />
+    int i,j,a;<br />double h,w,Area,cen_rx,cen_ry, centeroid_x, centeroid_y,holearea,hole_x,hole_y;<br />
+    double sigI,A,cen_x,cen_y,d_y, shapetype, length, width,sigma_area,sigma_yarea,sigma_xarea;<br />
+    double I_x,I_y,d_x,sigIx,sigIy;<br />
+    double AppMoment,maxheight,normalstress;<br />
+    <br />AppMoment = 10000.000000; // Force applied in Newtons
+    <br /><br /><br /><br />//Code TO FIND THE CENTEROID OF ANY COMPLEX SHAPE//
+    <br /><br />printf("Please input the number of simple shapes in the complex shape \n"); // Asks the user to simplify the complex shapes in rectangles and circles. <br />scanf("%ld",&amp;j);<br />for(i=1;i&lt;=j;i++)
+    // Loop to enter details of all the simple shapes. <br />{<br />printf("Enter the data for the simple shape %d", i);
+    <br />printf( ": - \n 1.Rectangle. \n 2.Hole. \n"); 
+    <br />scanf("%lf", &amp;shapetype);<br />
+    <br />if(shapetype==1)//If the shape is a rectangle this statement becomes true and asks user to enter details of the rectangle.
+    <br />{<br />printf("Enter the Length and the Width of the Rectangle\n"); <br /><br />{ scanf("%lf %lf", &amp;length, &amp;width); // User entered lenght and width of the rectangle.</p>
+<p>Area = length * width; //To find area of the rectangle. 
+    <br />}
+    <br />
+    <br />
+    <br />printf("Enter the x y co-ordinates of the Local Centeroid of the Rectangle\n");<br />{<br />scanf("%lf %lf", &amp;cen_rx, &amp;cen_ry); 
+    // To enter local centeroid of the rectangle. <br />}<br /><br />sigma_area = sigma_area+Area; // To find Total Area of all the simple rectangle. <br />sigma_yarea = sigma_yarea+(Area*cen_ry); // To find the Sigma Y to calculate the Y position of centeroid. <br />sigma_xarea = sigma_xarea+(Area*cen_rx); // To find the Sigma X to calculate the X position of the centeroid. <br /><br /><br />}<br /><br /><br /><br />if (shapetype ==2)<br />{<br /><br />printf("Enter the X Y co-ordinates of the hole \n"); // To enter the X, Y coordinates of the Hole.<br /><br />{ <br />scanf("%lf %lf", &amp;hole_x, &amp;hole_y);<br /><br />holearea = 2.500*3.14159265*2.500;<br /><br />sigma_area = sigma_area-holearea;<br />sigma_yarea = sigma_yarea-(holearea*hole_y);<br />sigma_xarea = sigma_xarea-(holearea*hole_x);<br />}<br /><br />}<br /><br />}<br /><br />centeroid_x = (sigma_xarea)/sigma_area;<br />centeroid_y = (sigma_yarea)/sigma_area; <br /><br />printf("The x y location of centeroid of the complex shape is %lf %lf \n",centeroid_x,centeroid_y);<br /><br /><br /><br /><br />// CODE TO FIND THE MOMENT OF INTERIA AFTER FINDING THE CENTEROID OF A COMPLEX SHAPE//<br /><br />printf("Please input the number of simple shapes in the complex shape to find the Moment of Interia \n"); // Divide any complex shape into simple shape<br />scanf("%ld",&amp;j);<br />for(i=1;i &lt;= j;i++) //To enter any amount of simple shapes<br /><br />{ printf("Enter the data for the simple shape %d", i);<br />printf( ": - \n 1.Rectangle. \n 2.Hole. \n"); <br />scanf("%lf", &amp;shapetype);<br /><br />if(shapetype==1) //If the simple shape is a rectangle. <br />{<br />printf("Enter the Length and the Width of the Rectangle\n"); <br /><br />{ <br />scanf("%lf %lf", &amp;length, &amp;width); <br />printf("Enter the x y co-ordinates of the Local Centeroid of the Rectangle\n");<br /><br />{<br />scanf("%lf %lf", &amp;cen_rx, &amp;cen_ry); //To enter local centeroid of simples shapes<br /><br />Area = length*width;<br />d_x = abs(centeroid_x - cen_rx); //Using absolute to keep distance from centeroid positive<br /><br />d_y = abs(centeroid_y - cen_ry); //Using absolute to keep distance from centeroid positive<br /><br />I_y = (1.00/12.00)*length*pow(width,3);<br />I_x = (1.00/12.00)*width*pow(length,3); <br />sigIy=sigIy+(I_x+(Area*d_x*d_x)); // Parallel axis theorem formula used here <br />sigIx=sigIx+(I_y+(Area*d_y*d_y)); // Parallel axis theorem formula used here <br /><br />}<br /><br />}<br />}<br /><br />if(shapetype==2) // Code for a hole <br /><br />{<br />printf("Enter the X Y co-ordinates of the hole \n"); //User entered location of the Hole<br /><br />{ <br />scanf("%lf %lf", &amp;hole_x, &amp;hole_y);<br />holearea = 2.500*3.14159265*2.500;<br />d_x = abs(centeroid_x - hole_x); //To find the x distance of centeroid to the hole<br /><br />d_y = abs(centeroid_y - hole_y); //To find the y distance of centeroid to the hole<br /><br />I_x = (3.14159265*2.500*2.5*2.5*2.5)/4;<br /><br />I_y = (3.14159265*2.500*2.5*2.5*2.5)/4;<br /><br />sigIx = sigIx-(I_x+(holearea*d_x*d_x)); //As hole removes Area we minus it from the sigma<br />sigIy = sigIy-(I_y+(holearea*d_y*d_y)); //As hole removes Area we minus it from the sigma</p>
+<p><br />}<br /><br /><br />}<br /><br />}<br />printf("Interia across centroidal x axis is =", sigIx);<br />printf("\n Interia across centroidal y axis is =", sigIy); <br /><br /><br />//Code to find max normal stress//<br />printf("\n Enter the max height of the shape\n"); <br /><br />scanf("%lf", &amp;maxheight); //Using Maximum height to find maximum stress<br /><br />normalstress = (AppMoment*(maxheight-centeroid_y)/sigIy) ; //To find normalstress <br /><br />printf("Max Normal Stress is = N/cm^2", normalstress);<br /><br />return 0;<br />}</p>
+    </div>
+     
+         
+         
+     
+
+         
+    
+  
+
+
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+          
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+          
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+          
+          
+          
+   
+
+    <!-- Plugin JavaScript -->
+    
+ <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="navbar.js"></script>
+
+  </body>
+
+</html>
+
+
